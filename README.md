@@ -7,7 +7,6 @@ and [C++ code](https://github.com/RayTracing/raytracinginoneweekend) available f
 Running the application generates a random scene:
 
 ![Random scene](Random-scene.png)
-
 If you feel a bit rusty on the math, you may want to start with a few posts I
 wrote while working through the book:
 
@@ -21,13 +20,15 @@ wrote while working through the book:
     $ dotnet run -c release > out.ppm
     $ display out.ppm
 
-On my Intel Core i7-7560U CPU @ 2.40GHz laptop running Linux and .NET Core 2.2,
-raytracing takes about four minutes.
+On my Intel Core i7-7560U CPU @ 2.40GHz laptop running Linux and .NET Core 3,
+ray tracing takes about two minutes.
 
 ## Benchmarking
 
 For benchmarking, writing to standard output should be disabled in
 ``Program.cs``:
+
+### .NET Core 2.2
 
     % time dotnet run -c release > /dev/null
 
@@ -35,7 +36,13 @@ For benchmarking, writing to standard output should be disabled in
     user    3m57.106s
     sys     0m0.461s
 
-Peter Shirley's C++ version:
+### .NET Core 3
+
+    real	1m52,318s
+    user	1m52,728s
+    sys	0m0,283s
+
+### Peter Shirley's C++ version:
 
     % git clone https://github.com/RayTracing/raytracinginoneweekend.git
     % cd raytracinginoneweekend/src/
