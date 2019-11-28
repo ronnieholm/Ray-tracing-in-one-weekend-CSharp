@@ -5,12 +5,13 @@ namespace RayTracingInOneWeekend
     abstract class Material
     {
         public static Random Rng = new Random();
+        public static Vec3 UnitVector = new Vec3(1, 1, 1);
+        public static Vec3 ZeroVector = new Vec3(0, 0, 0);
 
         public abstract bool Scatter(Ray incidentRay, HitRecord rec, out Vec3 attenuation, out Ray scatteredRay);
 
         public static Vec3 RandomInUnitSphere()
         {
-            var unitVector = new Vec3(1, 1, 1);
             Vec3 p;
 
             // We could test for Length() > 1 instead as a unit vector would
@@ -23,7 +24,7 @@ namespace RayTracingInOneWeekend
                 // the range 0 to +1. Then multiply those values by 2 to move
                 // into range 0 to +2. Then subtract 1 to bring those values
                 // into the final range -1 to +1.
-                p = 2 * new Vec3(Rng.NextDouble(), Rng.NextDouble(), Rng.NextDouble()) - unitVector;
+                p = 2 * new Vec3(Rng.NextDouble(), Rng.NextDouble(), Rng.NextDouble()) - UnitVector;
             }
             while (p.SquaredLength() >= 1);
             return p;
@@ -40,11 +41,9 @@ namespace RayTracingInOneWeekend
                 refractedRay = niOverNt * (uv - n * dt) - n * Math.Sqrt(discriminant);
                 return true;
             }
-            else
-            {
-                refractedRay = new Vec3(0, 0, 0);
-                return false;
-            }
+
+            refractedRay = ZeroVector;
+            return false;
         }
 
         public Vec3 Reflect(Vec3 ray, Vec3 normal) => ray - 2 * Vec3.Dot(ray, normal) * normal;
