@@ -11,6 +11,6 @@ namespace RayTracingInOneWeekend
             Direction = direction;
         }
 
-        public Vec3 PointAtParameter(float t) => Origin + t * Direction;
+        public Vec3 PointAtParameter(double t) => Origin + t * Direction;
     }
 }

@@ -23,13 +23,13 @@ namespace RayTracingInOneWeekend
                 // the range 0 to +1. Then multiply those values by 2 to move
                 // into range 0 to +2. Then subtract 1 to bring those values
                 // into the final range -1 to +1.
-                p = 2 * new Vec3((float)Rng.NextDouble(), (float)Rng.NextDouble(), (float)Rng.NextDouble()) - unitVector;
+                p = 2 * new Vec3(Rng.NextDouble(), Rng.NextDouble(), Rng.NextDouble()) - unitVector;
             }
             while (p.SquaredLength() >= 1);
             return p;
         }
 
-        public bool Refract(Vec3 v, Vec3 n, float niOverNt, out Vec3 refractedRay)
+        public bool Refract(Vec3 v, Vec3 n, double niOverNt, out Vec3 refractedRay)
         {
             var uv = Vec3.UnitVector(v);
             var dt = Vec3.Dot(uv, n);
@@ -37,7 +37,7 @@ namespace RayTracingInOneWeekend
 
             if (discriminant > 0)
             {
-                refractedRay = niOverNt * (uv - n * dt) - n * MathF.Sqrt(discriminant);
+                refractedRay = niOverNt * (uv - n * dt) - n * Math.Sqrt(discriminant);
                 return true;
             }
             else
@@ -49,11 +49,11 @@ namespace RayTracingInOneWeekend
 
         public Vec3 Reflect(Vec3 ray, Vec3 normal) => ray - 2 * Vec3.Dot(ray, normal) * normal;
 
-        public float Schlick(float cosine, float refractionIndex)
+        public double Schlick(double cosine, double refractionIndex)
         {
             var r0 = (1 - refractionIndex) / (1 + refractionIndex);
             r0 *= r0;
-            return r0 + (1 - r0) * MathF.Pow(1 - cosine, 5);
+            return r0 + (1 - r0) * Math.Pow(1 - cosine, 5);
         }
     }
 
@@ -83,9 +83,9 @@ namespace RayTracingInOneWeekend
     class Metal : Material
     {
         readonly Vec3 _albedo;
-        readonly float _fuzziness;
+        readonly double _fuzziness;
 
-        public Metal(Vec3 albedo, float fuzziness)
+        public Metal(Vec3 albedo, double fuzziness)
         {
             _albedo = albedo;
             _fuzziness = fuzziness < 1 ? fuzziness : 1;
@@ -102,9 +102,9 @@ namespace RayTracingInOneWeekend
     
     class Dielectric : Material
     {
-        readonly float _refractionIndex;
+        readonly double _refractionIndex;
 
-        public Dielectric(float refractionIndex)
+        public Dielectric(double refractionIndex)
         {
             _refractionIndex = refractionIndex;
         }
@@ -113,9 +113,9 @@ namespace RayTracingInOneWeekend
         {
             attenuation = new Vec3(1, 1, 1);
             Vec3 outwardNormal;
-            float niOverNt;
-            float cosine;
-            float reflectionProbability;
+            double niOverNt;
+            double cosine;
+            double reflectionProbability;
             var reflectedRay = Reflect(incidentRay.Direction, rec.Normal);
 
             if (Vec3.Dot(incidentRay.Direction, rec.Normal) > 0)

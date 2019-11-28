@@ -4,7 +4,7 @@ namespace RayTracingInOneWeekend
 {
     struct HitRecord
     {
-        public float T;
+        public double T;
         public Vec3 PointOfIntersection;
         public Vec3 Normal;
         public Material Material;
@@ -12,7 +12,7 @@ namespace RayTracingInOneWeekend
 
     abstract class Hitable
     {
-        public abstract bool Hit(Ray r, float tMin, float tMax, ref HitRecord record);
+        public abstract bool Hit(Ray r, double tMin, double tMax, ref HitRecord record);
     }
 
     class HitableItems : Hitable
@@ -24,7 +24,7 @@ namespace RayTracingInOneWeekend
             _hitables = hitables;
         }
 
-        public override bool Hit(Ray r, float tMin, float tMax, ref HitRecord record)
+        public override bool Hit(Ray r, double tMin, double tMax, ref HitRecord record)
         {
             var hitAnything = false;
             var closestSoFar = tMax;
@@ -45,17 +45,17 @@ namespace RayTracingInOneWeekend
     class Sphere : Hitable
     {
         Vec3 _center;
-        float _radius;
+        double _radius;
         Material _material;
 
-        public Sphere(Vec3 center, float radius, Material material)
+        public Sphere(Vec3 center, double radius, Material material)
         {
             _center = center;
             _radius = radius;
             _material = material;
         }
 
-        public override bool Hit(Ray r, float tMin, float tMax, ref HitRecord record)
+        public override bool Hit(Ray r, double tMin, double tMax, ref HitRecord record)
         {
             var oc = r.Origin - _center;
             var a = Vec3.Dot(r.Direction, r.Direction);
@@ -65,7 +65,7 @@ namespace RayTracingInOneWeekend
             
             if (discriminant > 0)
             {
-                var sqrtDiscriminant = MathF.Sqrt(discriminant);
+                var sqrtDiscriminant = Math.Sqrt(discriminant);
                 var solution1 = (-b - sqrtDiscriminant) / a;
                 if (solution1 < tMax && solution1 > tMin)
                 {

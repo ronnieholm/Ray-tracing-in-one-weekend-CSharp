@@ -3,25 +3,27 @@ using System.Runtime.CompilerServices;
 
 namespace RayTracingInOneWeekend
 {
-    // In C#, we cannot create a performance Vec3<T> where T could be int, long,
-    // float, double. Using where to constrain T by design has no "where numeric
-    // type". It's still possible to create such Vec3<T>, but dispatch based on
-    // type must happen runtime. For some types this is okay, but not for a Vec3
-    // would sit on the hot path.
+    // In C#, we cannot create a generic Vec3<T> where T could be int, long,
+    // float, or double. Using where to constrain T by design has no "where
+    // numeric type". It's only possible to create a Vec3<T> and dispatch on
+    // type at runtime. For some types this is okay, but not for a Vec3 on the
+    // hot path.
     //
-    // To avoid heap allocation, Vec3f is implemented as a struct instead of a
-    // class. That way allocations happen on the stack instead.
+    // To avoid heap allocation, Vec3 is implemented as a struct instead of a
+    // class. That way allocations happen on the stack instead. Turns out in
+    // .NET, there's negligable difference between float and double, so we went
+    // with double.
     readonly struct Vec3
     {
-        public float X { get; }
-        public float Y { get; }
-        public float Z { get; }
+        public double X { get; }
+        public double Y { get; }
+        public double Z { get; }
 
-        public float R => X;
-        public float G => Y;
-        public float B => Z;
+        public double R => X;
+        public double G => Y;
+        public double B => Z;
 
-        public Vec3(float e0, float e1, float e2)
+        public Vec3(double e0, double e1, double e2)
         {
             X = e0;
             Y = e1;
@@ -29,14 +31,14 @@ namespace RayTracingInOneWeekend
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public float Length() => MathF.Sqrt(X * X + Y * Y + Z * Z);
+        public double Length() => Math.Sqrt(X * X + Y * Y + Z * Z);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public float SquaredLength() => X * X + Y * Y + Z * Z;
+        public double SquaredLength() => X * X + Y * Y + Z * Z;
 
         // In C#, overloading a binary operator automatically overloads its
-        // compound equivalent, i.e., we get both Vec3f + Vec3f and Vec3f +=
-        // Vec3f with a single overload.
+        // compound equivalent, i.e., we get both Vec3 + Vec3 and Vec3 +=
+        // Vec3 with a single overload.
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vec3 operator+(Vec3 v1, Vec3 v2) => new Vec3(v1.X + v2.X, v1.Y + v2.Y, v1.Z + v2.Z);
 
@@ -47,19 +49,19 @@ namespace RayTracingInOneWeekend
         public static Vec3 operator*(Vec3 v1, Vec3 v2) => new Vec3(v1.X * v2.X, v1.Y * v2.Y, v1.Z * v2.Z);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vec3 operator*(Vec3 v, float t) => new Vec3(v.X * t, v.Y * t, v.Z * t);
+        public static Vec3 operator*(Vec3 v, double t) => new Vec3(v.X * t, v.Y * t, v.Z * t);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vec3 operator*(float t, Vec3 v) => new Vec3(v.X * t, v.Y * t, v.Z * t);
+        public static Vec3 operator*(double t, Vec3 v) => new Vec3(v.X * t, v.Y * t, v.Z * t);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vec3 operator/(Vec3 v, float t) => new Vec3(v.X / t, v.Y / t, v.Z / t);
+        public static Vec3 operator/(Vec3 v, double t) => new Vec3(v.X / t, v.Y / t, v.Z / t);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vec3 UnitVector(Vec3 v) => v / v.Length();
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float Dot(Vec3 v1, Vec3 v2) => v1.X * v2.X + v1.Y * v2.Y + v1.Z * v2.Z;
+        public static double Dot(Vec3 v1, Vec3 v2) => v1.X * v2.X + v1.Y * v2.Y + v1.Z * v2.Z;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vec3 Cross(Vec3 v1, Vec3 v2) =>

@@ -9,15 +9,15 @@ namespace RayTracingInOneWeekend
         Vec3 _vertical;
         Vec3 _origin;
         Vec3 _u, _v, _w;
-        readonly float _lensRadius;
+        readonly double _lensRadius;
         readonly Random _rng = new Random();
 
         // virticalFieldOfViewDegrees is top to bottom in degrees.
-        public Camera(Vec3 lookFrom, Vec3 lookAt, Vec3 viewUp, float virticalFieldOfViewDegrees, float aspectRatio, float aperture, float focusDistance)
+        public Camera(Vec3 lookFrom, Vec3 lookAt, Vec3 viewUp, double virticalFieldOfViewDegrees, double aspectRatio, double aperture, double focusDistance)
         {
             _lensRadius = aperture / 2;
-            float theta = (float)(virticalFieldOfViewDegrees * Math.PI / 180);
-            var halfHeight = MathF.Tan(theta / 2);
+            var theta = virticalFieldOfViewDegrees * Math.PI / 180;
+            var halfHeight = Math.Tan(theta / 2);
             var halfWidth = aspectRatio * halfHeight;
 
             _origin = lookFrom;
@@ -30,7 +30,7 @@ namespace RayTracingInOneWeekend
             _vertical = 2 * halfHeight * focusDistance * _v;
         }
 
-        public Ray GetRay(float s, float t)
+        public Ray GetRay(double s, double t)
         {
             var rayDirection = _lensRadius * RandomInUnitDisk();
             var offset = _u * rayDirection.X + _v * rayDirection.Y;
@@ -43,7 +43,7 @@ namespace RayTracingInOneWeekend
             var size = new Vec3(1, 1, 0);
             do
             {
-                p = 2f * new Vec3((float)_rng.NextDouble(), (float)_rng.NextDouble(), 0) - size;
+                p = 2f * new Vec3(_rng.NextDouble(), _rng.NextDouble(), 0) - size;
             }
             while (Vec3.Dot(p, p) >= 1f);
             return p;
