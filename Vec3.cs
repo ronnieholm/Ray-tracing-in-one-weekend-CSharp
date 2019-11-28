@@ -9,13 +9,13 @@ namespace RayTracingInOneWeekend
     // type must happen runtime. For some types this is okay, but not for a Vec3
     // would sit on the hot path.
     //
-    // To avoid heap allocation, Vec3f is implement as a struct instead of a
+    // To avoid heap allocation, Vec3f is implemented as a struct instead of a
     // class. That way allocations happen on the stack instead.
-    struct Vec3
+    readonly struct Vec3
     {
-        public float X { get; private set; }
-        public float Y { get; private set; }
-        public float Z { get; private set; }
+        public float X { get; }
+        public float Y { get; }
+        public float Z { get; }
 
         public float R => X;
         public float G => Y;

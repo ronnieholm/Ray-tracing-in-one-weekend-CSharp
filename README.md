@@ -59,7 +59,7 @@ Comment out the last ``std::cout`` statement in ``main.cc``.
 In terms of raw computation power, .NET Core doesn't come close to C++. At least
 not while staying true to the C++ code structure.
 
-## See Also
+## See also
 
 - Live coding implementation in C++ ([part 1](https://www.youtube.com/watch?v=VXF4xzZIvfw), [part 2](https://www.youtube.com/watch?v=Pc1TbuX2NHk), [part 3](https://www.youtube.com/watch?v=tQOK696mBfU), [part 4](https://www.youtube.com/watch?v=1N2afgppQvw)). Adds commentary
   and derives equations that the books glosses over.
