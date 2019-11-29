@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-// Tips: on Windows, make sure to use cmd.exe to run the application. With
+// Tip: on Windows, make sure to use cmd.exe to run the application. With
 // PowerShell, the redirected output ends up with a Unicode byte order mark
 // (0xFF, 0xFE) at the beginning of the file. Tools such as display on Linux
 // cannot parse a ppm file with byte order mark.
@@ -11,6 +11,9 @@ namespace RayTracingInOneWeekend
     static class Program
     {
         static readonly Random Rng = new Random();
+        static Vec3 UnitVector = new Vec3(1, 1, 1);
+        static Vec3 Background = new Vec3(0.5, 0.7, 1);
+        static Vec3 ZeroVector = new Vec3(0, 0, 0);
 
         static Vec3 Color(Ray ray, HitableItems world, int depth)
         {
@@ -19,24 +22,22 @@ namespace RayTracingInOneWeekend
             // Ignore close hits as they're likely the cause of rounding errors
             // with t values. Not ignoring causes an undesirable visual effect
             // called the shadow acne.
-            if (world.Hit(ray, 0.001f, double.MaxValue, ref record))
+            if (world.Hit(ray, 0.001, double.MaxValue, ref record))
             {
                 return (depth < 50 && record.Material.Scatter(ray, record, out Vec3 attenuation, out Ray scatterRay))
                     ? attenuation * Color(scatterRay, world, depth + 1)
-                    : new Vec3(0, 0, 0);
+                    : ZeroVector;
             }
-            else
-            {
-                var unitDirection = Vec3.UnitVector(ray.Direction);
-                var t = 0.5f * (unitDirection.Y + 1);
-                return (1 - t) * new Vec3(1, 1, 1) + t * new Vec3(0.5f, 0.7f, 1);
-            }
+
+            var unitDirection = Vec3.UnitVector(ray.Direction);
+            var t = 0.5 * (unitDirection.Y + 1);
+            return (1 - t) * UnitVector + t * Background;
         }
 
         static HitableItems RandomScene()
         {
             var hitables = new List<Hitable>();
-            hitables.Add(new Sphere(new Vec3(0, -1000, 0), 1000, new Lambertian(new Vec3(0.5f, 0.5f, 0.5f))));
+            hitables.Add(new Sphere(new Vec3(0, -1000, 0), 1000, new Lambertian(new Vec3(0.5, 0.5, 0.5))));
 
             for (var a = -11; a < 11; a++)
             {

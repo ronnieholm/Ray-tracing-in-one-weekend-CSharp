@@ -11,6 +11,7 @@ namespace RayTracingInOneWeekend
         Vec3 _u, _v, _w;
         readonly double _lensRadius;
         readonly Random _rng = new Random();
+        static Vec3 Size = new Vec3(1, 1, 0);
 
         // virticalFieldOfViewDegrees is top to bottom in degrees.
         public Camera(Vec3 lookFrom, Vec3 lookAt, Vec3 viewUp, double virticalFieldOfViewDegrees, double aspectRatio, double aperture, double focusDistance)
@@ -40,12 +41,11 @@ namespace RayTracingInOneWeekend
         private Vec3 RandomInUnitDisk()
         {
             Vec3 p;
-            var size = new Vec3(1, 1, 0);
             do
             {
-                p = 2f * new Vec3(_rng.NextDouble(), _rng.NextDouble(), 0) - size;
+                p = 2 * new Vec3(_rng.NextDouble(), _rng.NextDouble(), 0) - Size;
             }
-            while (Vec3.Dot(p, p) >= 1f);
+            while (Vec3.Dot(p, p) >= 1);
             return p;
         }
     }

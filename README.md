@@ -28,19 +28,11 @@ ray tracing takes about two minutes.
 For benchmarking, writing to standard output should be disabled in
 ``Program.cs``:
 
-### .NET Core 2.2
-
-    % time dotnet run -c release > /dev/null
-
-    real    3m57.752s
-    user    3m57.106s
-    sys     0m0.461s
-
 ### .NET Core 3
 
-    real	1m52,318s
-    user	1m52,728s
-    sys	0m0,283s
+    real    1m52,318s
+    user    1m52,728s
+    sys	    0m0,283s
 
 ### Peter Shirley's C++ version:
 

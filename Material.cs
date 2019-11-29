@@ -68,12 +68,12 @@ namespace RayTracingInOneWeekend
 
         public override bool Scatter(Ray incidentRay, HitRecord rec, out Vec3 attenuation, out Ray scatteredRay)
         {
-            // Book calls targerOnUnitSphere for s: a point within the unit
+            // Book calls targetOnUnitSphere for s: a point within the unit
             // radius sphere that is tangent to what the book called the
             // hitpoint, here PointOfIntersection. The unit sphere's center is
             // at p + N where N is the unit normal to p.
-            var targerOnUnitSphere = rec.PointOfIntersection + rec.Normal + RandomInUnitSphere();
-            scatteredRay = new Ray(rec.PointOfIntersection, targerOnUnitSphere - rec.PointOfIntersection);
+            var targetOnUnitSphere = rec.PointOfIntersection + rec.Normal + RandomInUnitSphere();
+            scatteredRay = new Ray(rec.PointOfIntersection, targetOnUnitSphere - rec.PointOfIntersection);
             attenuation = _albedo;
             return true;
         }
@@ -110,29 +110,28 @@ namespace RayTracingInOneWeekend
 
         public override bool Scatter(Ray incidentRay, HitRecord rec, out Vec3 attenuation, out Ray scatteredRay)
         {
-            attenuation = new Vec3(1, 1, 1);
+            attenuation = UnitVector;
             Vec3 outwardNormal;
             double niOverNt;
             double cosine;
-            double reflectionProbability;
             var reflectedRay = Reflect(incidentRay.Direction, rec.Normal);
 
             if (Vec3.Dot(incidentRay.Direction, rec.Normal) > 0)
             {
-                outwardNormal = -1f * rec.Normal;
+                outwardNormal = -1 * rec.Normal;
                 niOverNt = _refractionIndex;
                 cosine = _refractionIndex * Vec3.Dot(incidentRay.Direction, rec.Normal) / incidentRay.Direction.Length();
             }
             else
             {
                 outwardNormal = rec.Normal;
-                niOverNt = 1f / _refractionIndex;
+                niOverNt = 1 / _refractionIndex;
                 cosine = -Vec3.Dot(incidentRay.Direction, rec.Normal) / incidentRay.Direction.Length();
             }
 
-            reflectionProbability = Refract(incidentRay.Direction, outwardNormal, niOverNt, out Vec3 refractedRay) 
+            var reflectionProbability = Refract(incidentRay.Direction, outwardNormal, niOverNt, out Vec3 refractedRay) 
                 ? Schlick(cosine, _refractionIndex) 
-                : 1f;
+                : 1;
 
             scatteredRay = Rng.NextDouble() < reflectionProbability
                 ? new Ray(rec.PointOfIntersection, reflectedRay)
