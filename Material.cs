@@ -34,7 +34,7 @@ namespace RayTracingInOneWeekend
         {
             var uv = Vec3.UnitVector(v);
             var dt = Vec3.Dot(uv, n);
-            var discriminant = 1f - niOverNt * niOverNt * (1 - dt * dt);
+            var discriminant = 1 - niOverNt * niOverNt * (1 - dt * dt);
 
             if (discriminant > 0)
             {

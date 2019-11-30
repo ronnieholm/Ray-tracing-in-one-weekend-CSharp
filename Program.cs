@@ -12,8 +12,8 @@ namespace RayTracingInOneWeekend
     {
         static readonly Random Rng = new Random();
         static Vec3 UnitVector = new Vec3(1, 1, 1);
-        static Vec3 Background = new Vec3(0.5, 0.7, 1);
         static Vec3 ZeroVector = new Vec3(0, 0, 0);
+        static Vec3 Background = new Vec3(0.5, 0.7, 1);
 
         static Vec3 Color(Ray ray, HitableItems world, int depth)
         {
@@ -79,7 +79,7 @@ namespace RayTracingInOneWeekend
                 }
             }
 
-            hitables.Add(new Sphere(new Vec3(0, 1, 0), 1, new Dielectric(1.5f)));
+            hitables.Add(new Sphere(new Vec3(0, 1, 0), 1, new Dielectric(1.5)));
             hitables.Add(new Sphere(new Vec3(-4, 1, 0), 1, new Lambertian(new Vec3(0.4, 0.2, 0.1))));
             hitables.Add(new Sphere(new Vec3(4, 1, 0), 1, new Metal(new Vec3(0.7, 0.6, 0.5), 0.0)));
             return new HitableItems(hitables.ToArray());
@@ -97,8 +97,8 @@ namespace RayTracingInOneWeekend
             var lookFrom = new Vec3(13, 2, 3);
             var lookAt = new Vec3(0, 0, 0);
             var distanceToFocus = 10;
-            var aperture = 0.1f;
-            var camera = new Camera(lookFrom, lookAt, new Vec3(0, 1, 0), 20, numX / numY, aperture, distanceToFocus);
+            var aperture = 0.1;
+            var camera = new Camera(lookFrom, lookAt, new Vec3(0, 1, 0), 20, (double)numX / (double)numY, aperture, distanceToFocus);
 
             for (var j = numY - 1; j >= 0; j--)
             {
