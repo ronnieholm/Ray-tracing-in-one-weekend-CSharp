@@ -30,9 +30,10 @@ For benchmarking, writing to standard output should be disabled in
 
 ### .NET Core 3
 
-    real    1m52,318s
-    user    1m52,728s
-    sys	    0m0,283s
+    real    1m50.083s
+    user    1m50.593s
+    sys     0m0.269s
+
 
 ### Peter Shirley's C++ version:
 
