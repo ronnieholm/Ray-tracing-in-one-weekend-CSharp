@@ -29,13 +29,13 @@ namespace RayTracingInOneWeekend
             var hitAnything = false;
             var closestSoFar = tMax;
 
-            for (var i = 0; i < _hitables.Length; i++)
+            foreach (var t in _hitables)
             {
-                if (_hitables[i].Hit(r, tMin, closestSoFar, ref record))
-                {
-                    hitAnything = true;
-                    closestSoFar = record.T;
-                }
+                if (!t.Hit(r, tMin, closestSoFar, ref record))
+                    continue;
+                
+                hitAnything = true;
+                closestSoFar = record.T;
             }
 
             return hitAnything;

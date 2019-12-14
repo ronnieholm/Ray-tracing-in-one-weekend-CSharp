@@ -11,7 +11,7 @@ namespace RayTracingInOneWeekend
     //
     // To avoid heap allocation, Vec3 is implemented as a struct instead of a
     // class. That way allocations happen on the stack instead. Turns out in
-    // .NET, there's negligable difference between float and double, so we went
+    // .NET, there's negligible difference between float and double, so we went
     // with double.
     readonly struct Vec3
     {

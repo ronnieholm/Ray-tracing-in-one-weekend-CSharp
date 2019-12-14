@@ -13,11 +13,11 @@ namespace RayTracingInOneWeekend
         readonly Random _rng = new Random();
         static Vec3 Size = new Vec3(1, 1, 0);
 
-        // virticalFieldOfViewDegrees is top to bottom in degrees.
-        public Camera(Vec3 lookFrom, Vec3 lookAt, Vec3 viewUp, double virticalFieldOfViewDegrees, double aspectRatio, double aperture, double focusDistance)
+        // verticalFieldOfViewDegrees is top to bottom in degrees.
+        public Camera(Vec3 lookFrom, Vec3 lookAt, Vec3 viewUp, double verticalFieldOfViewDegrees, double aspectRatio, double aperture, double focusDistance)
         {
             _lensRadius = aperture / 2;
-            var theta = virticalFieldOfViewDegrees * Math.PI / 180;
+            var theta = verticalFieldOfViewDegrees * Math.PI / 180;
             var halfHeight = Math.Tan(theta / 2);
             var halfWidth = aspectRatio * halfHeight;
 
