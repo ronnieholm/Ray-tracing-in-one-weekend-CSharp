@@ -4,13 +4,13 @@ namespace RayTracingInOneWeekend
 {
     abstract class Material
     {
-        public static Random Rng = new Random();
-        public static Vec3 UnitVector = new Vec3(1, 1, 1);
-        public static Vec3 ZeroVector = new Vec3(0, 0, 0);
+        protected static readonly Random Rng = new Random();
+        protected static Vec3 UnitVector = new Vec3(1, 1, 1);
+        private static readonly Vec3 ZeroVector = new Vec3(0, 0, 0);
 
         public abstract bool Scatter(Ray incidentRay, HitRecord rec, out Vec3 attenuation, out Ray scatteredRay);
 
-        public static Vec3 RandomInUnitSphere()
+        protected static Vec3 RandomInUnitSphere()
         {
             Vec3 p;
 
@@ -30,7 +30,7 @@ namespace RayTracingInOneWeekend
             return p;
         }
 
-        public bool Refract(Vec3 v, Vec3 n, double niOverNt, out Vec3 refractedRay)
+        protected bool Refract(Vec3 v, Vec3 n, double niOverNt, out Vec3 refractedRay)
         {
             var uv = Vec3.UnitVector(v);
             var dt = Vec3.Dot(uv, n);
@@ -46,9 +46,9 @@ namespace RayTracingInOneWeekend
             return false;
         }
 
-        public Vec3 Reflect(Vec3 ray, Vec3 normal) => ray - 2 * Vec3.Dot(ray, normal) * normal;
+        protected Vec3 Reflect(Vec3 ray, Vec3 normal) => ray - 2 * Vec3.Dot(ray, normal) * normal;
 
-        public double Schlick(double cosine, double refractionIndex)
+        protected double Schlick(double cosine, double refractionIndex)
         {
             var r0 = (1 - refractionIndex) / (1 + refractionIndex);
             r0 *= r0;
@@ -59,7 +59,7 @@ namespace RayTracingInOneWeekend
     class Lambertian : Material
     {
         // The ratio of the light reflected by an object to that received by it.
-        Vec3 _albedo;
+        readonly Vec3 _albedo;
 
         public Lambertian(Vec3 albedo)
         {

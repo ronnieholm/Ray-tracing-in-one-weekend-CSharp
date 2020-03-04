@@ -4,14 +4,15 @@ namespace RayTracingInOneWeekend
 {
     class Camera
     {
-        Vec3 _lowerLeftCorner;
-        Vec3 _horizontal;
-        Vec3 _vertical;
-        Vec3 _origin;
-        Vec3 _u, _v, _w;
+        readonly Vec3 _lowerLeftCorner;
+        readonly Vec3 _horizontal;
+        readonly Vec3 _vertical;
+        readonly Vec3 _origin;
+        readonly Vec3 _u;
+        readonly Vec3 _v;
         readonly double _lensRadius;
         readonly Random _rng = new Random();
-        static Vec3 Size = new Vec3(1, 1, 0);
+        static readonly Vec3 Size = new Vec3(1, 1, 0);
 
         // verticalFieldOfViewDegrees is top to bottom in degrees.
         public Camera(Vec3 lookFrom, Vec3 lookAt, Vec3 viewUp, double verticalFieldOfViewDegrees, double aspectRatio, double aperture, double focusDistance)
@@ -22,11 +23,11 @@ namespace RayTracingInOneWeekend
             var halfWidth = aspectRatio * halfHeight;
 
             _origin = lookFrom;
-            _w = Vec3.UnitVector(lookFrom - lookAt);
-            _u = Vec3.UnitVector(Vec3.Cross(viewUp, _w));
-            _v = Vec3.Cross(_w, _u);
+            var w = Vec3.UnitVector(lookFrom - lookAt);
+            _u = Vec3.UnitVector(Vec3.Cross(viewUp, w));
+            _v = Vec3.Cross(w, _u);
 
-            _lowerLeftCorner = _origin - halfWidth * focusDistance * _u - halfHeight * focusDistance *_v - focusDistance * _w;
+            _lowerLeftCorner = _origin - halfWidth * focusDistance * _u - halfHeight * focusDistance *_v - focusDistance * w;
             _horizontal = 2 * halfWidth * focusDistance * _u;
             _vertical = 2 * halfHeight * focusDistance * _v;
         }

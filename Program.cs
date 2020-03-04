@@ -11,9 +11,9 @@ namespace RayTracingInOneWeekend
     static class Program
     {
         static readonly Random Rng = new Random();
-        static Vec3 UnitVector = new Vec3(1, 1, 1);
-        static Vec3 ZeroVector = new Vec3(0, 0, 0);
-        static Vec3 Background = new Vec3(0.5, 0.7, 1);
+        static readonly Vec3 UnitVector = new Vec3(1, 1, 1);
+        static readonly Vec3 ZeroVector = new Vec3(0, 0, 0);
+        static readonly Vec3 Background = new Vec3(0.5, 0.7, 1);
 
         static Vec3 Color(Ray ray, HitableItems world, int depth)
         {
@@ -36,8 +36,10 @@ namespace RayTracingInOneWeekend
 
         static HitableItems RandomScene()
         {
-            var hitables = new List<Hitable>();
-            hitables.Add(new Sphere(new Vec3(0, -1000, 0), 1000, new Lambertian(new Vec3(0.5, 0.5, 0.5))));
+            var hitables = new List<Hitable>
+            {
+                new Sphere(new Vec3(0, -1000, 0), 1000, new Lambertian(new Vec3(0.5, 0.5, 0.5)))
+            };
 
             for (var a = -11; a < 11; a++)
             {

@@ -44,9 +44,9 @@ namespace RayTracingInOneWeekend
 
     class Sphere : Hitable
     {
-        Vec3 _center;
-        double _radius;
-        Material _material;
+        readonly Vec3 _center;
+        readonly double _radius;
+        readonly Material _material;
 
         public Sphere(Vec3 center, double radius, Material material)
         {
