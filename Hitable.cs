@@ -17,7 +17,7 @@ namespace RayTracingInOneWeekend
 
     class HitableItems : Hitable
     {
-        Hitable[] _hitables;
+        readonly Hitable[] _hitables;
 
         public HitableItems(Hitable[] hitables)
         {

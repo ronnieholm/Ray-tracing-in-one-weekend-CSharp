@@ -100,7 +100,7 @@ namespace RayTracingInOneWeekend
             var lookAt = new Vec3(0, 0, 0);
             var distanceToFocus = 10;
             var aperture = 0.1;
-            var camera = new Camera(lookFrom, lookAt, new Vec3(0, 1, 0), 20, (double)numX / (double)numY, aperture, distanceToFocus);
+            var camera = new Camera(lookFrom, lookAt, new Vec3(0, 1, 0), 20, numX / (double)numY, aperture, distanceToFocus);
 
             for (var j = numY - 1; j >= 0; j--)
             {
