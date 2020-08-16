@@ -32,7 +32,7 @@ For benchmarking, writing to standard output should be disabled in
 
     real    1m45,915s
     user    1m46,027s
-    sys	    0m0,644s
+    sys     0m0,644s
 
 ### Peter Shirley's C++ version:
 
