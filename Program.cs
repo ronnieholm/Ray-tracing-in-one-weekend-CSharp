@@ -10,10 +10,10 @@ namespace RayTracingInOneWeekend
 {
     static class Program
     {
-        static readonly Random Rng = new Random();
-        static readonly Vec3 UnitVector = new Vec3(1, 1, 1);
-        static readonly Vec3 ZeroVector = new Vec3(0, 0, 0);
-        static readonly Vec3 Background = new Vec3(0.5, 0.7, 1);
+        static readonly Random Rng = new();
+        static readonly Vec3 UnitVector = new(1, 1, 1);
+        static readonly Vec3 ZeroVector = new(0, 0, 0);
+        static readonly Vec3 Background = new(0.5, 0.7, 1);
 
         static Vec3 Color(Ray ray, HitableItems world, int depth)
         {

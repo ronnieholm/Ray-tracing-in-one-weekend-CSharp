@@ -40,22 +40,22 @@ namespace RayTracingInOneWeekend
         // compound equivalent, i.e., we get both Vec3 + Vec3 and Vec3 +=
         // Vec3 with a single overload.
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vec3 operator+(Vec3 v1, Vec3 v2) => new Vec3(v1.X + v2.X, v1.Y + v2.Y, v1.Z + v2.Z);
+        public static Vec3 operator+(Vec3 v1, Vec3 v2) => new(v1.X + v2.X, v1.Y + v2.Y, v1.Z + v2.Z);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vec3 operator-(Vec3 v1, Vec3 v2) => new Vec3(v1.X - v2.X, v1.Y - v2.Y, v1.Z - v2.Z);
+        public static Vec3 operator-(Vec3 v1, Vec3 v2) => new (v1.X - v2.X, v1.Y - v2.Y, v1.Z - v2.Z);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vec3 operator*(Vec3 v1, Vec3 v2) => new Vec3(v1.X * v2.X, v1.Y * v2.Y, v1.Z * v2.Z);
+        public static Vec3 operator*(Vec3 v1, Vec3 v2) => new (v1.X * v2.X, v1.Y * v2.Y, v1.Z * v2.Z);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vec3 operator*(Vec3 v, double t) => new Vec3(v.X * t, v.Y * t, v.Z * t);
+        public static Vec3 operator*(Vec3 v, double t) => new (v.X * t, v.Y * t, v.Z * t);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vec3 operator*(double t, Vec3 v) => new Vec3(v.X * t, v.Y * t, v.Z * t);
+        public static Vec3 operator*(double t, Vec3 v) => new (v.X * t, v.Y * t, v.Z * t);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vec3 operator/(Vec3 v, double t) => new Vec3(v.X / t, v.Y / t, v.Z / t);
+        public static Vec3 operator/(Vec3 v, double t) => new (v.X / t, v.Y / t, v.Z / t);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vec3 UnitVector(Vec3 v) => v / v.Length();
@@ -65,8 +65,8 @@ namespace RayTracingInOneWeekend
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vec3 Cross(Vec3 v1, Vec3 v2) =>
-            new Vec3(v1.Y * v2.Z - v1.Z * v2.Y,
-                     v1.Z * v2.X - v1.X * v2.Z,
-                     v1.X * v2.Y - v1.Y * v2.X);
+            new (v1.Y * v2.Z - v1.Z * v2.Y,
+                 v1.Z * v2.X - v1.X * v2.Z,
+                 v1.X * v2.Y - v1.Y * v2.X);
     }
 }

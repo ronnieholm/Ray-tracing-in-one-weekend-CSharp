@@ -4,9 +4,9 @@ namespace RayTracingInOneWeekend
 {
     abstract class Material
     {
-        protected static readonly Random Rng = new Random();
-        protected static Vec3 UnitVector = new Vec3(1, 1, 1);
-        private static readonly Vec3 ZeroVector = new Vec3(0, 0, 0);
+        protected static readonly Random Rng = new();
+        protected static Vec3 UnitVector = new (1, 1, 1);
+        private static readonly Vec3 ZeroVector = new(0, 0, 0);
 
         public abstract bool Scatter(Ray incidentRay, HitRecord rec, out Vec3 attenuation, out Ray scatteredRay);
 
@@ -129,7 +129,7 @@ namespace RayTracingInOneWeekend
                 cosine = -Vec3.Dot(incidentRay.Direction, rec.Normal) / incidentRay.Direction.Length();
             }
 
-            var reflectionProbability = Refract(incidentRay.Direction, outwardNormal, niOverNt, out Vec3 refractedRay) 
+            var reflectionProbability = Refract(incidentRay.Direction, outwardNormal, niOverNt, out var refractedRay) 
                 ? Schlick(cosine, _refractionIndex) 
                 : 1;
 

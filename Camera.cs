@@ -11,8 +11,8 @@ namespace RayTracingInOneWeekend
         readonly Vec3 _u;
         readonly Vec3 _v;
         readonly double _lensRadius;
-        readonly Random _rng = new Random();
-        static readonly Vec3 Size = new Vec3(1, 1, 0);
+        readonly Random _rng = new();
+        static readonly Vec3 Size = new(1, 1, 0);
 
         // verticalFieldOfViewDegrees is top to bottom in degrees.
         public Camera(Vec3 lookFrom, Vec3 lookAt, Vec3 viewUp, double verticalFieldOfViewDegrees, double aspectRatio, double aperture, double focusDistance)
@@ -27,7 +27,7 @@ namespace RayTracingInOneWeekend
             _u = Vec3.UnitVector(Vec3.Cross(viewUp, w));
             _v = Vec3.Cross(w, _u);
 
-            _lowerLeftCorner = _origin - halfWidth * focusDistance * _u - halfHeight * focusDistance *_v - focusDistance * w;
+            _lowerLeftCorner = _origin - halfWidth * focusDistance * _u - halfHeight * focusDistance * _v - focusDistance * w;
             _horizontal = 2 * halfWidth * focusDistance * _u;
             _vertical = 2 * halfHeight * focusDistance * _v;
         }
