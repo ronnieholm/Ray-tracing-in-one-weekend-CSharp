@@ -11,9 +11,9 @@ namespace RayTracingInOneWeekend
     static class Program
     {
         static readonly Random Rng = new();
-        static readonly Vec3 UnitVector = new(1, 1, 1);
-        static readonly Vec3 ZeroVector = new(0, 0, 0);
-        static readonly Vec3 Background = new(0.5, 0.7, 1);
+        static readonly Vec3 White = new(1, 1, 1);
+        static readonly Vec3 Black = new(0, 0, 0);
+        static readonly Vec3 Blue = new(0.5, 0.7, 1);
 
         static Vec3 Color(Ray ray, HitableItems world, int depth)
         {
@@ -26,12 +26,12 @@ namespace RayTracingInOneWeekend
             {
                 return (depth < 50 && record.Material.Scatter(ray, record, out Vec3 attenuation, out Ray scatterRay))
                     ? attenuation * Color(scatterRay, world, depth + 1)
-                    : ZeroVector;
+                    : Black;
             }
 
             var unitDirection = Vec3.UnitVector(ray.Direction);
             var t = 0.5 * (unitDirection.Y + 1);
-            return (1 - t) * UnitVector + t * Background;
+            return (1 - t) * White + t * Blue;
         }
 
         static HitableItems RandomScene()
