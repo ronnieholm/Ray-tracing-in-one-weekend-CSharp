@@ -48,7 +48,7 @@ Comment out the last ``std::cout`` statement in ``main.cc``.
     user    1m12.789s
     sys     0m0.056s
 
-In terms of raw computation power, .NET Core doesn't come close to C++. At least
+In terms of raw computation power, .NET doesn't come close to C++. At least
 not while staying true to the C++ code structure.
 
 ## See also
