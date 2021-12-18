@@ -1,97 +1,96 @@
 using System;
 
-namespace RayTracingInOneWeekend
+namespace RayTracingInOneWeekend;
+
+struct HitRecord
 {
-    struct HitRecord
+    public double T;
+    public Vec3 PointOfIntersection;
+    public Vec3 Normal;
+    public Material Material;
+}
+
+abstract class Hitable
+{
+    public abstract bool Hit(Ray r, double tMin, double tMax, ref HitRecord record);
+}
+
+class HitableItems : Hitable
+{
+    readonly Hitable[] _hitables;
+
+    public HitableItems(Hitable[] hitables)
     {
-        public double T;
-        public Vec3 PointOfIntersection;
-        public Vec3 Normal;
-        public Material Material;
+        _hitables = hitables;
     }
 
-    abstract class Hitable
+    public override bool Hit(Ray r, double tMin, double tMax, ref HitRecord record)
     {
-        public abstract bool Hit(Ray r, double tMin, double tMax, ref HitRecord record);
-    }
+        var hitAnything = false;
+        var closestSoFar = tMax;
 
-    class HitableItems : Hitable
-    {
-        readonly Hitable[] _hitables;
-
-        public HitableItems(Hitable[] hitables)
+        foreach (var t in _hitables)
         {
-            _hitables = hitables;
-        }
-
-        public override bool Hit(Ray r, double tMin, double tMax, ref HitRecord record)
-        {
-            var hitAnything = false;
-            var closestSoFar = tMax;
-
-            foreach (var t in _hitables)
-            {
-                if (!t.Hit(r, tMin, closestSoFar, ref record))
-                    continue;
+            if (!t.Hit(r, tMin, closestSoFar, ref record))
+                continue;
                 
-                hitAnything = true;
-                closestSoFar = record.T;
-            }
-
-            return hitAnything;
+            hitAnything = true;
+            closestSoFar = record.T;
         }
+
+        return hitAnything;
+    }
+}
+
+class Sphere : Hitable
+{
+    readonly Vec3 _center;
+    readonly double _radius;
+    readonly Material _material;
+
+    public Sphere(Vec3 center, double radius, Material material)
+    {
+        _center = center;
+        _radius = radius;
+        _material = material;
     }
 
-    class Sphere : Hitable
+    public override bool Hit(Ray r, double tMin, double tMax, ref HitRecord record)
     {
-        readonly Vec3 _center;
-        readonly double _radius;
-        readonly Material _material;
-
-        public Sphere(Vec3 center, double radius, Material material)
-        {
-            _center = center;
-            _radius = radius;
-            _material = material;
-        }
-
-        public override bool Hit(Ray r, double tMin, double tMax, ref HitRecord record)
-        {
-            var oc = r.Origin - _center;
-            var a = Vec3.Dot(r.Direction, r.Direction);
-            var b = Vec3.Dot(oc, r.Direction);
-            var c = Vec3.Dot(oc, oc) - _radius * _radius;
-            var discriminant = b * b - a * c;
+        var oc = r.Origin - _center;
+        var a = Vec3.Dot(r.Direction, r.Direction);
+        var b = Vec3.Dot(oc, r.Direction);
+        var c = Vec3.Dot(oc, oc) - _radius * _radius;
+        var discriminant = b * b - a * c;
             
-            if (discriminant > 0)
+        if (discriminant > 0)
+        {
+            var sqrtDiscriminant = Math.Sqrt(discriminant);
+            var solution1 = (-b - sqrtDiscriminant) / a;
+            if (solution1 < tMax && solution1 > tMin)
             {
-                var sqrtDiscriminant = Math.Sqrt(discriminant);
-                var solution1 = (-b - sqrtDiscriminant) / a;
-                if (solution1 < tMax && solution1 > tMin)
-                {
-                    record.T = solution1;
-                    record.PointOfIntersection = r.PointAtParameter(record.T);
+                record.T = solution1;
+                record.PointOfIntersection = r.PointAtParameter(record.T);
 
-                    // Normal is computed by computing the vector center to
-                    // point of intersection Dividing by radius causes this
-                    // vector to become a unit vector.
-                    record.Normal = (record.PointOfIntersection - _center) / _radius;
-                    record.Material = _material;
-                    return true;
-                }
-
-                var solution2 = (-b + sqrtDiscriminant) / a;
-                if (solution2 < tMax && solution2 > tMin)
-                {
-                    record.T = solution2;
-                    record.PointOfIntersection = r.PointAtParameter(record.T);
-                    record.Normal = (record.PointOfIntersection - _center) / _radius;
-                    record.Material = _material;
-                    return true;
-                }
+                // Normal is computed by computing the vector center to
+                // point of intersection Dividing by radius causes this
+                // vector to become a unit vector.
+                record.Normal = (record.PointOfIntersection - _center) / _radius;
+                record.Material = _material;
+                return true;
             }
 
-            return false;
+            var solution2 = (-b + sqrtDiscriminant) / a;
+            if (solution2 < tMax && solution2 > tMin)
+            {
+                record.T = solution2;
+                record.PointOfIntersection = r.PointAtParameter(record.T);
+                record.Normal = (record.PointOfIntersection - _center) / _radius;
+                record.Material = _material;
+                return true;
+            }
         }
+
+        return false;
     }
 }
