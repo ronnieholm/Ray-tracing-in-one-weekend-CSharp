@@ -4,15 +4,15 @@ namespace RayTracingInOneWeekend;
 
 class Camera
 {
-    readonly Vec3 _lowerLeftCorner;
-    readonly Vec3 _horizontal;
-    readonly Vec3 _vertical;
-    readonly Vec3 _origin;
-    readonly Vec3 _u;
-    readonly Vec3 _v;
-    readonly double _lensRadius;
-    readonly Random _rng = new();
-    static readonly Vec3 Size = new(1, 1, 0);
+    private readonly Vec3 _lowerLeftCorner;
+    private readonly Vec3 _horizontal;
+    private readonly Vec3 _vertical;
+    private readonly Vec3 _origin;
+    private readonly Vec3 _u;
+    private readonly Vec3 _v;
+    private readonly double _lensRadius;
+    private readonly Random _rng = new();
+    private static readonly Vec3 Size = new(1, 1, 0);
 
     // verticalFieldOfViewDegrees is top to bottom in degrees.
     public Camera(Vec3 lookFrom, Vec3 lookAt, Vec3 viewUp, double verticalFieldOfViewDegrees, double aspectRatio, double aperture, double focusDistance)

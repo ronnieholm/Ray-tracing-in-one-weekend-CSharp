@@ -16,11 +16,10 @@ wrote while working through the book:
 ## Getting started
 
     $ git clone https://github.com/ronnieholm/Ray-tracing-in-one-weekend-CSharp.git
-    $ cd Ray-tracing-in-one-weekend-CSharp.git
     $ dotnet run -c release > out.ppm
     $ display out.ppm
 
-On my Intel Core i7-7560U CPU @ 2.40GHz laptop running Linux and .NET Core 3,
+On my Intel Core i7-7560U CPU @ 2.40GHz laptop running Linux and .NET,
 ray tracing takes about two minutes.
 
 ## Benchmarking
@@ -28,11 +27,11 @@ ray tracing takes about two minutes.
 For benchmarking, writing to standard output should be disabled in
 ``Program.cs``:
 
-### .NET 5 (Linux)
+### .NET 6 (Linux)
 
-    real    1m38,357s
-    user    1m38,768s
-    sys     0m0,243s
+    real    1m34.189s
+    user    1m34.720s
+    sys     0m0.222s
 
 ### Peter Shirley's C++ version:
 

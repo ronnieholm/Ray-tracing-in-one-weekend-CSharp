@@ -17,7 +17,7 @@ abstract class Hitable
 
 class HitableItems : Hitable
 {
-    readonly Hitable[] _hitables;
+    private readonly Hitable[] _hitables;
 
     public HitableItems(Hitable[] hitables)
     {
@@ -44,9 +44,9 @@ class HitableItems : Hitable
 
 class Sphere : Hitable
 {
-    readonly Vec3 _center;
-    readonly double _radius;
-    readonly Material _material;
+    private readonly Vec3 _center;
+    private readonly double _radius;
+    private readonly Material _material;
 
     public Sphere(Vec3 center, double radius, Material material)
     {
