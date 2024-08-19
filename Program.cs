@@ -59,7 +59,7 @@ static class Program
                                     new Vec3(
                                         Rng.NextDouble() * Rng.NextDouble(),
                                         Rng.NextDouble() * Rng.NextDouble(),
-                                        Rng.NextDouble() * Rng.NextDouble()))));                                
+                                        Rng.NextDouble() * Rng.NextDouble()))));
                     }
                     // Metal
                     else if (chooseMaterial < 0.95)
@@ -114,12 +114,12 @@ static class Program
                     var r = camera.GetRay(u, v);
                     col += Color(r, world, 0);
                 }
-                    
+
                 col /= numSamples;
                 var ir = (int)(255.99 * Math.Sqrt(col.R));
                 var ig = (int)(255.99 * Math.Sqrt(col.G));
                 var ib = (int)(255.99 * Math.Sqrt(col.B));
-                //Console.WriteLine($"{ir} {ig} {ib}");
+                Console.WriteLine($"{ir} {ig} {ib}");
             }
         }
     }

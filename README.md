@@ -27,28 +27,11 @@ ray tracing takes about two minutes.
 For benchmarking, writing to standard output should be disabled in
 ``Program.cs``:
 
-### .NET 6 (Linux)
+### .NET 8 (Linux)
 
-    real    1m34.189s
-    user    1m34.720s
-    sys     0m0.222s
-
-### Peter Shirley's C++ version:
-
-    % git clone https://github.com/RayTracing/raytracinginoneweekend.git
-    % cd raytracinginoneweekend/src/
-
-Comment out the last ``std::cout`` statement in ``main.cc``.
-
-    % g++ -O2 main.cc 
-    % time ./a.out > /dev/null 
-
-    real    1m13.045s
-    user    1m12.789s
-    sys     0m0.056s
-
-In terms of raw computation power, .NET doesn't come close to C++. At least
-not while staying true to the C++ code structure.
+    real    0m59,088s
+    user    0m59,415s
+    sys     0m0,224s
 
 ## See also
 
