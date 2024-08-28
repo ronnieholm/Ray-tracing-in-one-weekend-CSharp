@@ -74,9 +74,7 @@ static class Program
                     }
                     // Glass
                     else
-                    {
                         hitables.Add(new Sphere(center, 0.2, new Dielectric(1.5)));
-                    }
                 }
             }
         }
@@ -84,7 +82,7 @@ static class Program
         hitables.Add(new Sphere(new Vec3(0, 1, 0), 1, new Dielectric(1.5)));
         hitables.Add(new Sphere(new Vec3(-4, 1, 0), 1, new Lambertian(new Vec3(0.4, 0.2, 0.1))));
         hitables.Add(new Sphere(new Vec3(4, 1, 0), 1, new Metal(new Vec3(0.7, 0.6, 0.5), 0.0)));
-        return new HitableItems(hitables.ToArray());
+        return new HitableItems([.. hitables]);
     }
 
     static void Main()

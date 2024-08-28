@@ -30,7 +30,7 @@ abstract class Material
         return p;
     }
 
-    protected bool Refract(Vec3 v, Vec3 n, double niOverNt, out Vec3 refractedRay)
+    protected static bool Refract(Vec3 v, Vec3 n, double niOverNt, out Vec3 refractedRay)
     {
         var uv = Vec3.UnitVector(v);
         var dt = Vec3.Dot(uv, n);
@@ -46,9 +46,9 @@ abstract class Material
         return false;
     }
 
-    protected Vec3 Reflect(Vec3 ray, Vec3 normal) => ray - 2 * Vec3.Dot(ray, normal) * normal;
+    protected static Vec3 Reflect(Vec3 ray, Vec3 normal) => ray - 2 * Vec3.Dot(ray, normal) * normal;
 
-    protected double Schlick(double cosine, double refractionIndex)
+    protected static double Schlick(double cosine, double refractionIndex)
     {
         var r0 = (1 - refractionIndex) / (1 + refractionIndex);
         r0 *= r0;
@@ -79,16 +79,10 @@ class Lambertian : Material
     }
 }
 
-class Metal : Material
+class Metal(Vec3 albedo, double fuzziness) : Material
 {
-    readonly Vec3 _albedo;
-    readonly double _fuzziness;
-
-    public Metal(Vec3 albedo, double fuzziness)
-    {
-        _albedo = albedo;
-        _fuzziness = fuzziness < 1 ? fuzziness : 1;
-    } 
+    readonly Vec3 _albedo = albedo;
+    readonly double _fuzziness = fuzziness < 1 ? fuzziness : 1;
 
     public override bool Scatter(Ray incidentRay, HitRecord rec, out Vec3 attenuation, out Ray scatteredRay)
     {
@@ -98,15 +92,10 @@ class Metal : Material
         return Vec3.Dot(scatteredRay.Direction, rec.Normal) > 0;
     }
 }
-    
-class Dielectric : Material
-{
-    readonly double _refractionIndex;
 
-    public Dielectric(double refractionIndex)
-    {
-        _refractionIndex = refractionIndex;
-    }
+class Dielectric(double refractionIndex) : Material
+{
+    readonly double _refractionIndex = refractionIndex;
 
     public override bool Scatter(Ray incidentRay, HitRecord rec, out Vec3 attenuation, out Ray scatteredRay)
     {
@@ -129,8 +118,8 @@ class Dielectric : Material
             cosine = -Vec3.Dot(incidentRay.Direction, rec.Normal) / incidentRay.Direction.Length();
         }
 
-        var reflectionProbability = Refract(incidentRay.Direction, outwardNormal, niOverNt, out var refractedRay) 
-            ? Schlick(cosine, _refractionIndex) 
+        var reflectionProbability = Refract(incidentRay.Direction, outwardNormal, niOverNt, out var refractedRay)
+            ? Schlick(cosine, _refractionIndex)
             : 1;
 
         scatteredRay = Rng.NextDouble() < reflectionProbability

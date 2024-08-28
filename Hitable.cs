@@ -15,14 +15,9 @@ abstract class Hitable
     public abstract bool Hit(Ray r, double tMin, double tMax, ref HitRecord record);
 }
 
-class HitableItems : Hitable
+class HitableItems(Hitable[] hitables) : Hitable
 {
-    private readonly Hitable[] _hitables;
-
-    public HitableItems(Hitable[] hitables)
-    {
-        _hitables = hitables;
-    }
+    private readonly Hitable[] _hitables = hitables;
 
     public override bool Hit(Ray r, double tMin, double tMax, ref HitRecord record)
     {
@@ -33,7 +28,7 @@ class HitableItems : Hitable
         {
             if (!t.Hit(r, tMin, closestSoFar, ref record))
                 continue;
-                
+
             hitAnything = true;
             closestSoFar = record.T;
         }
@@ -42,18 +37,11 @@ class HitableItems : Hitable
     }
 }
 
-class Sphere : Hitable
+class Sphere(Vec3 center, double radius, Material material) : Hitable
 {
-    private readonly Vec3 _center;
-    private readonly double _radius;
-    private readonly Material _material;
-
-    public Sphere(Vec3 center, double radius, Material material)
-    {
-        _center = center;
-        _radius = radius;
-        _material = material;
-    }
+    private readonly Vec3 _center = center;
+    private readonly double _radius = radius;
+    private readonly Material _material = material;
 
     public override bool Hit(Ray r, double tMin, double tMax, ref HitRecord record)
     {
@@ -62,7 +50,7 @@ class Sphere : Hitable
         var b = Vec3.Dot(oc, r.Direction);
         var c = Vec3.Dot(oc, oc) - _radius * _radius;
         var discriminant = b * b - a * c;
-            
+
         if (discriminant > 0)
         {
             var sqrtDiscriminant = Math.Sqrt(discriminant);

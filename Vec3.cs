@@ -13,22 +13,15 @@ namespace RayTracingInOneWeekend;
 // class. That way allocations happen on the stack instead. Turns out in
 // .NET, there's negligible difference between float and double, so we went
 // with double.
-readonly struct Vec3
+readonly struct Vec3(double e0, double e1, double e2)
 {
-    public double X { get; }
-    public double Y { get; }
-    public double Z { get; }
+    public double X { get; } = e0;
+    public double Y { get; } = e1;
+    public double Z { get; } = e2;
 
     public double R => X;
     public double G => Y;
     public double B => Z;
-
-    public Vec3(double e0, double e1, double e2)
-    {
-        X = e0;
-        Y = e1;
-        Z = e2;
-    }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public double Length() => Math.Sqrt(X * X + Y * Y + Z * Z);
