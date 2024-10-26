@@ -15,8 +15,8 @@ abstract class Material
         Vec3 p;
 
         // We could test for Length() > 1 instead as a unit vector would
-        // satisfied the >= 1. But computing the length requires squaring
-        // its components whereas the squared length doesn't.
+        // satisfy >= 1. But computing the length requires squaring its
+        // components whereas the squared length doesn't.
         do
         {
             // Pick a random point in the unit cube where x, y, z are in the
@@ -56,25 +56,19 @@ abstract class Material
     }
 }
 
-class Lambertian : Material
+class Lambertian(Vec3 albedo) : Material
 {
     // The ratio of the light reflected by an object to that received by it.
-    readonly Vec3 _albedo;
-
-    public Lambertian(Vec3 albedo)
-    {
-        _albedo = albedo;
-    }
 
     public override bool Scatter(Ray incidentRay, HitRecord rec, out Vec3 attenuation, out Ray scatteredRay)
     {
         // Book calls targetOnUnitSphere for s: a point within the unit
         // radius sphere that is tangent to what the book called the
-        // hitpoint, here PointOfIntersection. The unit sphere's center is
+        // hit point, here PointOfIntersection. The unit sphere's center is
         // at p + N where N is the unit normal to p.
         var targetOnUnitSphere = rec.PointOfIntersection + rec.Normal + RandomInUnitSphere();
         scatteredRay = new Ray(rec.PointOfIntersection, targetOnUnitSphere - rec.PointOfIntersection);
-        attenuation = _albedo;
+        attenuation = albedo;
         return true;
     }
 }
@@ -95,8 +89,6 @@ class Metal(Vec3 albedo, double fuzziness) : Material
 
 class Dielectric(double refractionIndex) : Material
 {
-    readonly double _refractionIndex = refractionIndex;
-
     public override bool Scatter(Ray incidentRay, HitRecord rec, out Vec3 attenuation, out Ray scatteredRay)
     {
         attenuation = UnitVector;
@@ -108,18 +100,18 @@ class Dielectric(double refractionIndex) : Material
         if (Vec3.Dot(incidentRay.Direction, rec.Normal) > 0)
         {
             outwardNormal = -1 * rec.Normal;
-            niOverNt = _refractionIndex;
-            cosine = _refractionIndex * Vec3.Dot(incidentRay.Direction, rec.Normal) / incidentRay.Direction.Length();
+            niOverNt = refractionIndex;
+            cosine = refractionIndex * Vec3.Dot(incidentRay.Direction, rec.Normal) / incidentRay.Direction.Length();
         }
         else
         {
             outwardNormal = rec.Normal;
-            niOverNt = 1 / _refractionIndex;
+            niOverNt = 1 / refractionIndex;
             cosine = -Vec3.Dot(incidentRay.Direction, rec.Normal) / incidentRay.Direction.Length();
         }
 
         var reflectionProbability = Refract(incidentRay.Direction, outwardNormal, niOverNt, out var refractedRay)
-            ? Schlick(cosine, _refractionIndex)
+            ? Schlick(cosine, refractionIndex)
             : 1;
 
         scatteredRay = Rng.NextDouble() < reflectionProbability

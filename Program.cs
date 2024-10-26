@@ -24,7 +24,7 @@ static class Program
         // called the shadow acne.
         if (world.Hit(ray, 0.001, double.MaxValue, ref record))
         {
-            return (depth < 50 && record.Material.Scatter(ray, record, out var attenuation, out var scatterRay))
+            return depth < 50 && record.Material.Scatter(ray, record, out var attenuation, out var scatterRay)
                 ? attenuation * Color(scatterRay, world, depth + 1)
                 : Black;
         }
