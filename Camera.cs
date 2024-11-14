@@ -2,7 +2,7 @@ using System;
 
 namespace RayTracingInOneWeekend;
 
-class Camera
+internal class Camera
 {
     private readonly Vec3 _lowerLeftCorner;
     private readonly Vec3 _horizontal;

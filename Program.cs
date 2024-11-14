@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace RayTracingInOneWeekend;
 
-static class Program
+internal static class Program
 {
     private static readonly Random Rng = new();
     private static readonly Vec3 White = new(1, 1, 1);
@@ -34,7 +34,7 @@ static class Program
         return (1 - t) * White + t * Blue;
     }
 
-    static HitableItems RandomScene()
+    private static HitableItems RandomScene()
     {
         var hitables = new List<Hitable>
         {
@@ -85,7 +85,7 @@ static class Program
         return new HitableItems([.. hitables]);
     }
 
-    static void Main()
+    private static void Main()
     {
         const int numX = 1200;
         const int numY = 800;

@@ -2,7 +2,7 @@ using System;
 
 namespace RayTracingInOneWeekend;
 
-abstract class Material
+internal abstract class Material
 {
     protected static readonly Random Rng = new();
     protected static Vec3 UnitVector = new (1, 1, 1);
@@ -56,7 +56,7 @@ abstract class Material
     }
 }
 
-class Lambertian(Vec3 albedo) : Material
+internal class Lambertian(Vec3 albedo) : Material
 {
     // The ratio of the light reflected by an object to that received by it.
 
@@ -73,7 +73,7 @@ class Lambertian(Vec3 albedo) : Material
     }
 }
 
-class Metal(Vec3 albedo, double fuzziness) : Material
+internal class Metal(Vec3 albedo, double fuzziness) : Material
 {
     readonly Vec3 _albedo = albedo;
     readonly double _fuzziness = fuzziness < 1 ? fuzziness : 1;
@@ -87,7 +87,7 @@ class Metal(Vec3 albedo, double fuzziness) : Material
     }
 }
 
-class Dielectric(double refractionIndex) : Material
+internal class Dielectric(double refractionIndex) : Material
 {
     public override bool Scatter(Ray incidentRay, HitRecord rec, out Vec3 attenuation, out Ray scatteredRay)
     {

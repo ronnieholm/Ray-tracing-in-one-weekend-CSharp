@@ -2,7 +2,7 @@ using System;
 
 namespace RayTracingInOneWeekend;
 
-struct HitRecord
+internal struct HitRecord
 {
     public double T;
     public Vec3 PointOfIntersection;
@@ -10,12 +10,12 @@ struct HitRecord
     public Material Material;
 }
 
-abstract class Hitable
+internal abstract class Hitable
 {
     public abstract bool Hit(Ray r, double tMin, double tMax, ref HitRecord record);
 }
 
-class HitableItems(Hitable[] hitables) : Hitable
+internal class HitableItems(Hitable[] hitables) : Hitable
 {
     public override bool Hit(Ray r, double tMin, double tMax, ref HitRecord record)
     {
@@ -35,7 +35,7 @@ class HitableItems(Hitable[] hitables) : Hitable
     }
 }
 
-class Sphere(Vec3 center, double radius, Material material) : Hitable
+internal class Sphere(Vec3 center, double radius, Material material) : Hitable
 {
     public override bool Hit(Ray r, double tMin, double tMax, ref HitRecord record)
     {
